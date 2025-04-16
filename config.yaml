@@ -1,0 +1,29 @@
+
+sft_model_name: HuggingFaceTB/SmolLM2-135M-Instruct
+dataset_name: esfrankel17/original_HelpSteer2_binarized
+dataset_split: average_rating
+device: cuda
+max_length: 512
+seed: 2017
+project_name: back2basics_reinforce
+
+reward_model:
+  learning_rate: 5e-5
+  batch_size: 8
+  num_train_epochs: 1
+  output_dir: reward_model
+  fp16: true
+  wandb_run_name: reward
+  report_to: wandb
+  optimizer: adamw_torch
+  validation_split: 0.1
+
+reinforce:
+  learning_rate: 1e-5
+  batch_size: 4
+  num_iterations: 100
+  gamma: 0.99 
+  temperature: 1.0
+  validation_interval: 10
+  wandb_run_name: reinforce
+  output_dir: reinforce_model
