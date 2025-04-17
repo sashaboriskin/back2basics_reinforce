@@ -138,20 +138,6 @@ def main(config_path="config.yaml", reward_model_path=None):
     baseline = 0.0
     os.makedirs(cfg.reinforce.output_dir, exist_ok=True)
     
-    # print("Initial_val_reward...")
-    # val_rewards = []
-    # for i in tqdm(range(0, len(eval_dataset), cfg.reinforce.batch_size)):
-    #     batch = eval_dataset[i:i+cfg.reinforce.batch_size]
-    #     prompts = batch["prompt"]
-    #     responses = generate_responses(prompts)
-    #     rewards = compute_rewards(prompts, responses)
-    #     val_rewards.extend(rewards.cpu().numpy())
-    
-    # initial_reward = np.mean(val_rewards)
-    # print(f"Initial validation reward: {initial_reward:.4f}")
-    # wandb.log({"initial_val_reward": initial_reward})
-    initial_reward = 0.0
-    
     print("Training Reinforce...")
     for iteration in tqdm(range(cfg.reinforce.num_iterations)):
         batch_indices = random.sample(range(len(train_dataset)), cfg.reinforce.batch_size)
@@ -196,24 +182,6 @@ def main(config_path="config.yaml", reward_model_path=None):
     
     sft_model.save_pretrained(cfg.reinforce.output_dir)
     sft_tokenizer.save_pretrained(cfg.reinforce.output_dir)
-    
-    print("Final validation reward...")
-    val_rewards = []
-    for i in range(0, len(eval_dataset), cfg.reinforce.batch_size):
-        batch = eval_dataset[i:i+cfg.reinforce.batch_size]
-        prompts = batch["prompt"]
-        responses = generate_responses(prompts)
-        rewards = compute_rewards(prompts, responses)
-        val_rewards.extend(rewards.cpu().numpy())
-    
-    final_reward = np.mean(val_rewards)
-    print(f"Final validation reward: {final_reward:.4f}")
-    print(f"Improvement: {final_reward - initial_reward:.4f}")
-    
-    wandb.log({
-        "final_val_reward": final_reward,
-        "improvement": final_reward - initial_reward
-    })
     wandb.finish()
 
 if __name__ == "__main__":
