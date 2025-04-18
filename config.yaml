@@ -20,10 +20,10 @@ reward_model:
 
 reinforce:
   learning_rate: 5e-5
-  batch_size: 32
-  num_iterations: 175
+  batch_size: 64
+  num_iterations: 50
   gamma: 0.9 
   temperature: 0.8
-  validation_interval: 25
+  validation_interval: 10
   wandb_run_name: reinforce
   output_dir: reinforce_model

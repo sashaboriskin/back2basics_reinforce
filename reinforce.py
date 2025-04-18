@@ -77,6 +77,7 @@ def main(config_path="config.yaml", reward_model_path=None):
                 return_dict_in_generate=True,
                 temperature=temperature,
                 do_sample=True,
+                repetition_penalty=1.2,
             )
             
             response_ids = outputs.sequences[0][inputs.input_ids.shape[1]:]

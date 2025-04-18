@@ -7,7 +7,7 @@ from omegaconf import OmegaConf
 import random
 from sklearn.model_selection import train_test_split
 
-def main(config_path="config.yaml", checkpoint_path="reinforce_model/checkpoint-175"):
+def main(config_path="config.yaml", checkpoint_path="reinforce_model/checkpoint-75"):
     cfg = OmegaConf.load(config_path)
     
     random.seed(cfg.seed)
