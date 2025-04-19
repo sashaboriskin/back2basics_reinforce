@@ -9,7 +9,7 @@ project_name: back2basics_reinforce
 
 reward_model:
   learning_rate: 5e-5
-  batch_size: 8
+  batch_size: 16
   num_train_epochs: 1
   output_dir: reward_model
   fp16: true
@@ -20,10 +20,18 @@ reward_model:
 
 reinforce:
   learning_rate: 5e-5
-  batch_size: 64
-  num_iterations: 50
+  batch_size: 16
+  num_iterations: 150
   gamma: 0.9 
   temperature: 0.8
-  validation_interval: 10
+  validation_interval: 15
   wandb_run_name: reinforce
   output_dir: reinforce_model
+
+prob_reward_model:
+  output_dir: prob_reward_model
+  wandb_run_name: prob_reward
+
+prob_reinforce:
+  wandb_run_name: prob_reinforce
+  output_dir: prob_reinforce_model
