@@ -3,25 +3,33 @@ Implementation of https://arxiv.org/pdf/2402.14740
 
 ## Tech instructions
 
-Full pipeline
+### Level 1 (Regression Reward Model)
 
 ```bash
-python run.py --config config.yaml
+# Full pipeline
+python run.py --level 1 --config config.yaml
+
+# Train only reward model
+python run.py --level 1 --config config.yaml --only_reward_model
+
+# Train only REINFORCE
+python run.py --level 1 --config config.yaml --skip_reward_training
 ```
 
-Train only reward model
+### Level 2 (10 classes Reward Model)
 
 ```bash
-python run.py --config config.yaml --only_reward_model
+# Full pipeline
+python run.py --level 2 --config config.yaml
+
+# Train only reward model
+python run.py --level 2 --config config.yaml --only_reward_model
+
+# Train only REINFORCE
+python run.py --level 2 --config config.yaml --skip_reward_training
 ```
 
-Train only reinforce
-
-```bash
-python run.py --config config.yaml --skip_reward_training
-```
-
-Evaluate and compare sft and reinforce models
+### Evaluate and compare sft and reinforce models
 
 ```bash
 python evaluate.py --config config.yaml --checkpoint_path reinforce_model/checkpoint-175
@@ -77,7 +85,7 @@ Here are the five suggestions for the conventional gasoline-powered vehicle:
 </details>
 
 ### Reinforce baseline with repetition_penalty
-During training, the reinforcement learning model began heavily favoring constant predictions. Starting around step 75, it began generating repetitive phrases or symbols (likely a reward-hacking behavior). By step 175, the model exclusively outputs constants while receiving extremely high rewards. This occurs because our setup lacks a connection to the original SFT model’s distribution, unlike methods like PPO that enforce this via KL divergence. To mitigate this, I attempted using `repetition_penalty=1.2` in `model.generate()` to mildly constrain deviations from the baseline policy proposed in the paper.
+During training, the reinforcement learning model began heavily favoring constant predictions. Starting around step 75, it began generating repetitive phrases or symbols (likely a reward-hacking behavior). By step 175, the model exclusively outputs constants while receiving extremely high rewards. This occurs because our setup lacks a connection to the original SFT model’s distribution, unlike methods like PPO that enforce this via KL divergence. To mitigate this, I attempted using `repetition_penalty=1.2` in `model.generate()` to mildly constrain deviations from the baseline policy proposed in the paper. In RLOOTrainer KL divergence is included in the loss function.
 
 Also, I changed batch_size and anount of steps:
  - steps: 50
