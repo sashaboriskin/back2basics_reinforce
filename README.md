@@ -98,11 +98,8 @@ But I didn't have time to calculate the average difference of the reverts and lo
 ### Reinforce baseline with classification reward model 
 
 Reward model loss:
-$$
-\mathcal{L}(x,y_w,y_l)
-=
--\log\!\Bigl(\sum_{i=1}^{10}\sum_{j=1}^{10} p^w_i\,p^l_j\,[\,i>j\,]\Bigr),
-$$
+
+$$\mathcal{L}(x,y_w,y_l)=-\log\!\Bigl(\sum_{i=1}^{10}\sum_{j=1}^{10} p^w_i\,p^l_j\,[\,i>j\,]\Bigr)$$
 
 
 This loss directly maximizes the model’s probability of assigning a higher score to the chosen completion \(y_w\) than to the rejected one \(y_l\), yielding a smooth, differentiable objective for pairwise preference learning.
